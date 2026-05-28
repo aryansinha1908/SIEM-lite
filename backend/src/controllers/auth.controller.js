@@ -3,11 +3,13 @@ const authService = require("../services/auth.service.js");
 const { cookieConfig } = require("../config/cookie.js");
 
 exports.register = catchAsync(async (req, res, next) => {
-    const { name, email, password, role } = req.body;
+    const { username, email, password, role } = req.body;
 
-    const { user } = await authService.registerUser(name, email, password, role);
+    const { user } = await authService.registerUser(username, email, password, role);
 
-    res.send(201).json({
+    user.password = undefined;
+
+    res.status(201).json({
         success: true,
         message: "User Registered Successfully",
         data: { user }

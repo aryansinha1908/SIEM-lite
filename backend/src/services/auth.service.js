@@ -11,13 +11,12 @@ exports.registerUser = async (username, email, password, role) => {
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    password = passwordHash;
 
     const user = await User.create({
-        username,
-        email,
-        password,
-        role
+        username: username,
+        email: email,
+        password: passwordHash,
+        role: role,
     });
 
     if (!user) {

@@ -1,13 +1,16 @@
-const AppError = require("../utils/AppError.util");
+const AppError = require("../utils/AppError.util"); // Ensure curly braces if exported as an object!
 
 const validate = (schema) => (req, res, next) => {
-    try {
-        req.body = schema.parse(req.body);
-        next();
-    } catch (e) {
-        const errorMessage = e.errors.map((err) => err.message).join(',');
-        next(new AppError(errorMessage, 400));
+    const result = schema.safeParse(req.body);
+
+    if (!result.success) {
+        const errorMessage = result.error?.issues?.map((err) => err.message).join(', ') || "Validation failed";
+        
+        return next(new AppError(errorMessage, 400));
     }
+
+    req.body = result.data;
+    next();
 };
 
 module.exports = validate;

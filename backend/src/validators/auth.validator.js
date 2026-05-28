@@ -12,7 +12,11 @@ const registerSchema = z.object({
 
 const loginSchema = z.object({
     email: z.string().email("Please Provide an Email Address"),
-    password: z.string().min("Please Provide a password")
+    password: z.string().min(8, "Please Provide a password")
+});
+
+const logoutSchema = z.object({
+    userId: z.string()
 })
 
-module.exports = { loginSchema, registerSchema };registerSchema
+module.exports = { loginSchema, registerSchema, logoutSchema };
