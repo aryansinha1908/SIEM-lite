@@ -1,4 +1,4 @@
-const AppError = require("../utils/AppError.util"); // Ensure curly braces if exported as an object!
+const AppError = require("../utils/AppError.util"); 
 
 const validate = (schema) => (req, res, next) => {
     const result = schema.safeParse(req.body);
