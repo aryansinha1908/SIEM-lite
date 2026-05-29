@@ -6,6 +6,7 @@ const token = require("../utils/token.util.js");
 exports.registerUser = async (username, email, password, role) => {
 
     const exists = await User.findOne({ email });
+
     if (exists) {
         throw new AppError("User Could Not be Created", 400);
     }

@@ -1,11 +1,10 @@
 const jwt = require("jsonwebtoken")
+const isAuthenticated = require("../src/middlewares/auth.middleware");
 
 jest.mock("../src/config/env.js", () => ({
     jwt : { accessSecret: "aryansinha" }
 }));
 
-const isAuthenticated = require("../src/middlewares/auth.middleware");
-const AppError = require("../src/utils/AppError.util");
 
 describe("isAuthenticated Middleware", () => {
     let mockReq;

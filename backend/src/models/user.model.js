@@ -46,4 +46,8 @@ const userSchema = new mongoose.Schema({
     lastLoginIP: String
 }, { timestamps: true });
 
+userSchema.index({ status: 1 });
+userSchema.index({ role: 1 });
+userSchema.index({ isVerified: 1 });
+
 module.exports = mongoose.model("User", userSchema);
