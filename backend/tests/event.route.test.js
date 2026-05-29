@@ -8,6 +8,85 @@ describe("Telemetry API", () => {
         await Event.deleteMany({});
     });
 
+    describe("GET /api/v1/events/", () => {
+        let testEvents;
+
+        beforeEach(async () => {
+            testEvents = await Event.insertMany([
+                {
+                    eventId: "evt_111",
+                    timestamp: new Date().toISOString(),
+                    source: { system: "Firewall" },
+                    eventType: "AUTH_FAILURE",
+                    severity: "critical",
+                    action: "login_attempt"
+                },
+                {
+                    eventId: "evt_222",
+                    timestamp: new Date(Date.now() - 10000).toISOString(), 
+                    source: { system: "API_Gateway" },
+                    eventType: "RATE_LIMIT_EXCEEDED",
+                    severity: "high",
+                    action: "api_call"
+                },
+                {
+                    eventId: "evt_333",
+                    timestamp: new Date(Date.now() - 20000).toISOString(),
+                    source: { system: "SSO_Portal" },
+                    eventType: "AUTH_SUCCESS",
+                    severity: "info",
+                    action: "login"
+                }
+            ]);
+        });
+
+        it("should retrieve all events with default pagination and sorted by newest", async () => {
+            const res = await request(app).get("/api/v1/events");
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.success).toBe(true);
+            
+            expect(res.body.data.length).toBe(3);
+            expect(res.body.meta.total).toBe(3);
+            
+            expect(res.body.data[0].eventId).toBe("evt_111");
+        });
+
+        it("should successfully filter events by severity", async () => {
+            const res = await request(app).get("/api/v1/events?severity=critical");
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.data.length).toBe(1);
+            expect(res.body.data[0].eventId).toBe("evt_111");
+            expect(res.body.meta.total).toBe(1);
+        });
+
+        it("should successfully filter events by eventType", async () => {
+            const res = await request(app).get("/api/v1/events?eventType=RATE_LIMIT_EXCEEDED");
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.data.length).toBe(1);
+            expect(res.body.data[0].eventType).toBe("RATE_LIMIT_EXCEEDED");
+        });
+
+        it("should retrieve a single event by eventId", async () => {
+            const res = await request(app).get("/api/v1/events/evt_333");
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.success).toBe(true);
+            expect(res.body.data.eventId).toBe("evt_333");
+            expect(res.body.data.eventType).toBe("AUTH_SUCCESS");
+        });
+
+        it("should return a 404 error if the eventId does not exist", async () => {
+            const res = await request(app).get("/api/v1/events/evt_999_fake");
+
+            expect(res.statusCode).toBe(404);
+            expect(res.body.success).toBe(false);
+            expect(res.body.message).toMatch(/not found/i);
+        });
+    });
+
     describe("POST /api/v1/events/ingest", () => {
         
         it("should successfully ingest a full-fidelity security event", async () => {

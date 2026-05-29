@@ -5,6 +5,20 @@ const { ingestEventSchema } = require("../validators/event.validator.js");
 
 const router = express.Router();
 
-router.post("/ingest",  validate(ingestEventSchema), eventController.ingestEvent);
+router.get(
+    "/",
+    eventController.getEvents
+);
+
+router.get(
+    "/:id",
+    eventController.getEvent
+);
+
+router.post(
+    "/ingest", 
+    validate(ingestEventSchema), 
+    eventController.ingestEvent
+);
 
 module.exports = router;
