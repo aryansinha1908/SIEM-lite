@@ -1,0 +1,178 @@
+:root {
+  --bg-main: #171618; 
+  --bg-card: #242325; 
+  --bg-hover: #2d2c2f; 
+  --text-main: #E3DFFF; 
+  --text-muted: rgba(227, 223, 255, 0.6); 
+  --border-color: rgba(227, 223, 255, 0.1);
+  --accent-primary: #0E6BA8; 
+
+  --sev-critical-text: #FF6B6B; 
+  --sev-critical-bg: rgba(255, 107, 107, 0.15);
+  --sev-critical-border: rgba(255, 107, 107, 0.3);
+
+  --sev-high-text: #ff9c7a; 
+  --sev-high-bg: rgba(255, 156, 122, 0.15);
+  --sev-high-border: rgba(255, 156, 122, 0.3);
+
+  --sev-medium-text: #ffd166; 
+  --sev-medium-bg: rgba(255, 209, 102, 0.15);
+  --sev-medium-border: rgba(255, 209, 102, 0.3);
+
+  --sev-low-text: #008F77; 
+  --sev-low-bg: rgba(0, 143, 119, 0.15);
+  --sev-low-border: rgba(0, 143, 119, 0.3);
+
+  --sev-info-text: #0E6BA8; 
+  --sev-info-bg: rgba(14, 107, 168, 0.15);
+  --sev-info-border: rgba(14, 107, 168, 0.3);
+}
+
+.dashboard-container {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  padding: 2.5rem;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.875rem;
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.header-icon {
+  color: var(--accent-primary);
+}
+
+.event-count {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  background-color: var(--bg-card);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+}
+
+.table-wrapper {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.events-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.events-table th {
+  background-color: var(--bg-main);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.events-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.events-table tr:hover {
+  background-color: var(--bg-hover);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.timestamp {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.event-type {
+font-weight: 600;
+  color: var(--text-main);
+}
+
+.source-system {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.action-cell {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.875rem;
+  color: var(--accent-primary);
+}
+
+.loading-cell {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+}
+
+/* --- BADGES --- */
+.badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.375rem;
+  border: 1px solid;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+}
+
+.badge-critical { background-color: var(--sev-critical-bg); color: var(--sev-critical-text); border-color: var(--sev-critical-border); }
+.badge-high { background-color: var(--sev-high-bg); color: var(--sev-high-text); border-color: var(--sev-high-border); }
+.badge-medium { background-color: var(--sev-medium-bg); color: var(--sev-medium-text); border-color: var(--sev-medium-border); }
+.badge-low { background-color: var(--sev-low-bg); color: var(--sev-low-text); border-color: var(--sev-low-border); }
+.badge-info { background-color: var(--sev-info-bg); color: var(--sev-info-text); border-color: var(--sev-info-border); }
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.pagination button {
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 0.6rem 1.25rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: var(--bg-hover);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.pagination button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
