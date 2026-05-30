@@ -1,5 +1,5 @@
 const Alert = require("../models/alert.model.js");
-const { v4: uuidv4 } = require("uuid");
+const crypto = require("crypto");
 
 exports.getAlertById = async (alertId) => {
     return await Alert.findOne({ alertId }).lean();
@@ -7,7 +7,7 @@ exports.getAlertById = async (alertId) => {
 
 exports.createAlert = async (alertData) => {
     const newAlert = new Alert({
-        alertId: `alt_${uuidv4()}`,
+        alertId: `evt_${crypto.randomUUID()}`,
         ...alertData
     });
     
