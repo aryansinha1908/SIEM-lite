@@ -6,6 +6,27 @@ exports.getAlertById = async (alertId) => {
 };
 
 exports.createAlert = async (alertData) => {
+    const existingAlert = await Alert.findOne({
+        ruleName: alertData.ruleName,
+        entity: alertData.entity,
+        status: { $in: ['new', 'investigating'] } 
+    });
+
+    if (existingAlert) {
+        const combinedEvents = [
+            ...(existingAlert.sourceEvents || []),
+            ...(alertData.sourceEvents || [])
+        ];
+        
+        existingAlert.sourceEvents = [...new Set(combinedEvents)];
+        
+        existingAlert.updatedAt = Date.now();
+        
+        await existingAlert.save();
+        
+        return existingAlert; 
+    }
+
     const newAlert = new Alert({
         alertId: `evt_${crypto.randomUUID()}`,
         ...alertData

@@ -1,5 +1,17 @@
 const { z } = require("zod");
 
+const getEvents = z.object({
+    page: z.string().optional(),
+    limit: z.string().optional(),
+    startDate: z.string().optional(),
+    endDate: z.string().optional(),
+    severity: z.string().optional(),
+    eventType: z.string().optional(),
+    actorIp: z.string().optional(),
+    userId: z.string().optional(),
+    sort: z.string().optional()
+});
+
 const ingestEventSchema = z.object({
     eventId: z.string().optional(),
     timestamp: z.string().datetime({ message: "timeStamp must be a valid ISO 8601 date string" }),
@@ -71,4 +83,4 @@ const ingestEventSchema = z.object({
     }).optional()
 });
 
-module.exports = { ingestEventSchema };
+module.exports = { getEvents, ingestEventSchema };

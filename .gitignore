@@ -5,3 +5,6 @@ backend/*.log
 backend/npm-debug.log*
 backend/yarn-error.log*
 backend/yarn-debug.log*
+frontend/.env
+detection-engine/.env
+detection-engine/node_modules/

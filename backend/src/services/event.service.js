@@ -15,9 +15,9 @@ exports.getEvents = async (filters) => {
     if (filters.userId) query["actor.userId"] = filters.userId;
 
     if (filters.startDate || filters.endDate) {
-        query.timeStamp = {};
-        if (filters.startDate) query.timeStamp.$gte = new Date(filters.startDate);
-        if (filters.endDate) query.timeStamp.$lte = new Date(filters.endDate);
+        query.timestamp = {};
+        if (filters.startDate) query.timestamp.$gt = filters.startDate;
+        if (filters.endDate) query.timestamp.$lt = filters.endDate;
     }
 
     const [events, total] = await Promise.all([
