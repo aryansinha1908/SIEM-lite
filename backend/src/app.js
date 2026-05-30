@@ -7,6 +7,7 @@ const { errorHandler } = require("./middlewares/error.middleware.js");
 const { AppError } = require("./utils/AppError.util.js");
 const authRouter = require("./routes/auth.routes.js");
 const eventRouter = require("./routes/event.route.js");
+const alertRouter = require("./routes/alert.route.js");
 const app = express();
 
 app.use(helmet());
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 // Version 1 of API
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/events", eventRouter);
+app.use("/api/v1/alerts", alertRouter);
 
 app.use((req, res, next) => {
     next(new AppError(`Route ${req.originalUrl} not found`, 404));

@@ -1,10 +1,12 @@
 import "./Dashboard.css";
 import { format } from "date-fns";
-import { Activity } from "lucide-react";
+import { Activity, ShieldAlert } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getEvents } from "../../services/api.js";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+    const navigate = useNavigate();
     const [events, setEvents] = useState([]);
     const [meta, setMeta] = useState({});
     const [loading, setLoading] = useState(true);
@@ -39,8 +41,27 @@ const Dashboard = () => {
                     <Activity className="header-icon" />
                     Security Telemetry
                 </h1>
-                <div className="event-count">
-                    Total Events: {meta.total || 0}
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    <button 
+                        onClick={() => navigate('/alerts')}
+                        style={{
+                            background: 'var(--sev-critical-bg)',
+                            border: '1px solid var(--sev-critical-border)',
+                            color: 'var(--sev-critical-text)',
+                            padding: '0.5rem 1rem',
+                            borderRadius: '999px',
+                            cursor: 'pointer',
+                            fontWeight: 'bold',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem'
+                        }}
+                    >
+                        <ShieldAlert size={16} /> View Alerts
+                    </button>
+                    <div className="event-count">
+                        Total Events: {meta.total || 0}
+                    </div>
                 </div>
             </header>
 
