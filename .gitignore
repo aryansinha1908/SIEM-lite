@@ -8,3 +8,4 @@ backend/yarn-debug.log*
 frontend/.env
 detection-engine/.env
 detection-engine/node_modules/
+.env
