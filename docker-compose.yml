@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  # --- Backend (NodeJS) Service ---
+  backend:
+    build: ./backend
+    container_name: siem-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - MONGO_URI=mongodb+srv://aryansinha1908:aryansinha@cluster0.m1ugazl.mongodb.net/?appName=Cluster0
+      - JWT_SECRET=your_test_secret_here # Make sure to pass this so login routes don't 500!
+    networks:
+      - siem-network
+
+  # --- Frontend (Vite + Nginx) Service ---
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_BASE_URL=http://localhost:3001
+    container_name: siem-frontend
+    ports:
+      - "5173:80"
+    networks:
+      - siem-network
+    depends_on:
+      - backend
+
+networks:
+  siem-network:
+    driver: bridge
