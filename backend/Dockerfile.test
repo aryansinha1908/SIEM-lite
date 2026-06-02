@@ -1,0 +1,15 @@
+FROM node:20
+
+WORKDIR /usr/src/app
+
+# Copy dependency mappings
+COPY package*.json ./
+
+# Install all dependencies (including devDependencies like Jest/mongodb-memory-server)
+RUN npm install
+
+# Copy application source and test suites
+COPY . .
+
+# Run the test command when this container launches
+CMD ["npm", "test"]
