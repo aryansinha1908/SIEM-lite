@@ -22,8 +22,8 @@ app.use("/api/v1/events", eventRouter);
 app.use("/api/v1/alerts", alertRouter);
 
 app.use((req, res, next) => {
-  next(new AppError(`Route ${req.originalUrl} not found`, 404));
-});
+    next(new AppError(`Route ${req.originalUrl} not found`, 404));
+})
 
 app.use(errorHandler);
 

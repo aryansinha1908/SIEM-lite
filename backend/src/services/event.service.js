@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const Event = require("../models/event.model.js");
+const { getIO } = require("../config/socket.js");
 
 exports.getEvents = async (filters) => {
 
@@ -52,6 +53,8 @@ exports.ingestEvent = async (eventData) => {
     }
 
     const newEvent = await Event.create(eventData);
+
+    getIO().emit("newEventIngested", newEvent);
 
     return newEvent;
 };

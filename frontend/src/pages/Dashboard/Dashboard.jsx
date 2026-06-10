@@ -4,6 +4,11 @@ import { Activity, ShieldAlert } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getEvents } from "../../services/api.js";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
+
+const socket = io(import.meta.env.VITE_API_URL.replace('/api/v1', ''), {
+    withCredentials: true,
+});
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -11,6 +16,27 @@ const Dashboard = () => {
     const [meta, setMeta] = useState({});
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({ page: 1, limit: 20 });
+
+    useEffect(() => {
+        socket.on("connect", () => {
+            console.log("Socket Connected! ID:", socket.id);
+        });
+
+        const handleNewEvent = (liveEvent) => {
+            console.log("REAL-TIME EVENT:", liveEvent);
+            setEvents((prev) => {
+                if (prev.some(e => e.eventId === liveEvent.eventId)) return prev;
+                return [liveEvent, ...prev];
+            });
+        };
+
+        socket.on("newEventIngested", handleNewEvent);
+
+        return () => {
+            socket.off("newEventIngested", handleNewEvent);
+            socket.off("connect");
+        };
+    }, []);
 
     useEffect(() => {
         fetchData();

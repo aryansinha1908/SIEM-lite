@@ -2,6 +2,12 @@ const request = require("supertest");
 const app = require("../src/app.js"); 
 const Event = require("../src/models/event.model.js");
 
+jest.mock("../src/config/socket.js", () => ({
+    getIO: () => ({
+        emit: jest.fn() 
+    })
+}));
+
 describe("Telemetry API", () => {
     
     beforeEach(async () => {
